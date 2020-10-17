@@ -2,7 +2,9 @@
 live stream tweets from end sars campaign using Twitter streaming API.
 
 #access hosted app here
-[a link](https://vast-springs-63541.herokuapp.com/)
+
+[heroku hosted app](https://vast-springs-63541.herokuapp.com/)
+
 #to build locally 
 
 1. Clone the project 
