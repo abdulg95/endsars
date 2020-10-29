@@ -21,6 +21,17 @@ socket.on('tweet', function (tweet) {
     'userDescription': tweet.tweet.user.description,
     }
     try {
+        if(tweet.tweet.retweeted_status.extended_tweet.full_text) {
+          tweetbody['retweetedText'] = tweet.tweet.retweeted_status.extended_tweet.full_text ;  
+          tweetbody['retweetedUser'] = "@" + tweet.tweet.retweeted_status.user.screen_name ;      
+        }
+      } catch(err) { }
+      try {
+        if(tweet.tweet.extended_tweet.full_text) {
+          tweetbody['extendedText'] = tweet.tweet.extended_tweet.full_text;
+        }
+      } catch(err) { }
+    try {
     if(tweet.tweet.entities.media[0].media_url_https) {
         tweetbody['image'] = tweet.tweet.entities.media[0].media_url_https;
     }
@@ -50,8 +61,18 @@ socket.on('tweet', function (tweet) {
         quoteText.classList.add('long-quote');
     }else{
         quoteText.classList.remove('long-quote');
+    }    
+    if(currentTweet.retweetedText){
+        quoteText.innerText = 'RT ' + currentTweet.retweetedUser+ ' '+ currentTweet.retweetedText;
+    }   
+    else if(currentTweet.extendedText ){
+        quoteText.innerText = currentTweet.extendedText;
     }
-    quoteText.innerText = currentTweet.text;
+    else{
+       quoteText.innerText = currentTweet.text;
+    }
+
+    
     $("#user-image").attr("src",currentTweet.userImage);   
     } else {
       index = 0;
@@ -70,5 +91,3 @@ function tweetQuote(){
 
 //Event Listeners
 twitterBtn.addEventListener('click',tweetQuote);
-//on Load
-getTweet();
